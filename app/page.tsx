@@ -16,7 +16,7 @@ export default function Home() {
   //   useFetch<Repository[]>('https://api.github.com/users/ruuuff/repos');
 
   // react-query
-  const { data: repositories, isFetching } = useQuery<Repository[]>('repos', async () => {
+  const { data: repos, isFetching } = useQuery<Repository[]>('repos', async () => {
     const response = await axios.get('https://api.github.com/users/ruuuff/repos');
     return response.data;
   }, {
@@ -27,10 +27,12 @@ export default function Home() {
 
   return (
     <ul className='space-y-2'>
-      { (isFetching && !repositories) && <p>Carregando...</p> }
-      { repositories?.map((repo) => (
+      { (isFetching && !repos) && <p>Carregando...</p> }
+      { repos?.map((repo) => (
         <li key={ repo.full_name }>
-          <Link href={`/repository/` + repo.name}>{ repo.full_name }</Link>
+          <Link href={`/repository/` + repo.name}>
+            { repo.full_name }
+          </Link>
           <p>{ repo.description }</p>
         </li>
       )) }
